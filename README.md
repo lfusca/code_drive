@@ -8,46 +8,95 @@ Projeto de controle remoto de um Rover (carrinho) via rede local (Wi-Fi/LAN), ut
 
 ```
 code_drive/
-├── controle.py   # Cliente: captura teclas WASD e envia comandos via socket
-├── menu.py       # Interface web (Streamlit) para abrir o controle
+├── controle.py      # Cliente: captura teclas WASD e envia comandos via socket
+├── menu.py          # Interface web (Streamlit) para abrir o controle
+├── requirements.txt # Dependências do projeto
 └── README.md
 ```
 
 ---
 
-## ⚙️ Pré-requisitos
+## 🚀 Passo a Passo — Como Instalar e Executar
 
-- **Python 3.8+** instalado
-- **pip** para instalar as dependências
+### ✅ Passo 1 — Instale o Python
 
-### Instalar dependências
+Certifique-se de ter o **Python 3.8 ou superior** instalado.
+
+Verifique com:
 
 ```bash
-pip install pygame streamlit
+python --version
+```
+
+Caso não tenha, baixe em: [python.org/downloads](https://www.python.org/downloads/)
+
+> ⚠️ Durante a instalação no Windows, marque a opção **"Add Python to PATH"**.
+
+---
+
+### ✅ Passo 2 — Clone o Repositório
+
+```bash
+git clone https://github.com/lfusca/code_drive.git
+```
+
+Entre na pasta do projeto:
+
+```bash
+cd code_drive
 ```
 
 ---
 
-## 🌐 Configuração de Rede
+### ✅ Passo 3 — Crie um Ambiente Virtual (recomendado)
 
-O arquivo `controle.py` se conecta a um servidor (o Rover) via socket TCP.
+```bash
+python -m venv venv
+```
 
-> **Importante:** antes de executar, edite a linha abaixo em `controle.py` e substitua o IP pelo endereço IP do Rover na sua rede local:
+Ative o ambiente:
+
+- **Windows:**
+  ```bash
+  venv\Scripts\activate
+  ```
+- **Linux / macOS:**
+  ```bash
+  source venv/bin/activate
+  ```
+
+---
+
+### ✅ Passo 4 — Instale as Dependências
+
+Com o ambiente virtual ativado, instale tudo de uma vez usando o `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+Isso instalará:
+- `pygame-ce` — interface gráfica para captura de teclas
+- `streamlit` — painel web para abrir o controle
+
+---
+
+### ✅ Passo 5 — Configure o IP do Rover
+
+Abra o arquivo `controle.py` e edite a linha 11, substituindo o IP pelo endereço IP do Rover na sua rede local:
 
 ```python
 # controle.py — linha 11
 cliente.connect(("192.168.7.149", 5000))  # ← altere o IP aqui
 ```
 
-Para descobrir o IP do Rover, execute `ipconfig` (Windows) ou `ip a` (Linux) no dispositivo do Rover.
+> Para descobrir o IP do Rover, execute `ipconfig` (Windows) ou `ip a` (Linux) no dispositivo do Rover.
 
 ---
 
-## ▶️ Como Executar
+### ✅ Passo 6 — Execute o Projeto
 
-### Opção 1 — Interface Web (recomendado)
-
-Inicia um painel no navegador com um botão para abrir a janela de controle:
+**Opção A — Interface Web (recomendado):**
 
 ```bash
 streamlit run menu.py
@@ -59,9 +108,7 @@ Clique em **"Abrir Controle"** para abrir a janela de controle.
 
 ---
 
-### Opção 2 — Controle direto
-
-Abre a janela de controle diretamente, sem passar pelo menu:
+**Opção B — Controle direto:**
 
 ```bash
 python controle.py
@@ -73,13 +120,13 @@ python controle.py
 
 Com a janela do controle aberta, use as teclas:
 
-| Tecla | Ação        |
-|-------|-------------|
-| `W`   | Mover para frente |
-| `S`   | Mover para trás   |
-| `A`   | Virar à esquerda  |
-| `D`   | Virar à direita   |
-| *(soltar qualquer tecla)* | Parar (`p`) |
+| Tecla | Ação |
+|-------|------|
+| `W` | Mover para frente |
+| `S` | Mover para trás |
+| `A` | Virar à esquerda |
+| `D` | Virar à direita |
+| *(soltar qualquer tecla)* | Parar |
 
 > O controle envia comandos em tempo real via **socket TCP** para o servidor rodando no Rover.
 
@@ -89,11 +136,11 @@ Com a janela do controle aberta, use as teclas:
 
 | Comando enviado | Significado |
 |-----------------|-------------|
-| `b"w"`          | Frente      |
-| `b"s"`          | Ré          |
-| `b"a"`          | Esquerda    |
-| `b"d"`          | Direita     |
-| `b"p"`          | Parar       |
+| `b"w"` | Frente |
+| `b"s"` | Ré |
+| `b"a"` | Esquerda |
+| `b"d"` | Direita |
+| `b"p"` | Parar |
 
 ---
 
@@ -102,5 +149,6 @@ Com a janela do controle aberta, use as teclas:
 | Erro | Solução |
 |------|---------|
 | `ConnectionRefusedError` | O servidor do Rover não está rodando ou o IP está errado |
-| `ModuleNotFoundError: pygame` | Execute `pip install pygame` |
-| `ModuleNotFoundError: streamlit` | Execute `pip install streamlit` |
+| `ModuleNotFoundError: pygame` | Execute `pip install -r requirements.txt` |
+| `ModuleNotFoundError: streamlit` | Execute `pip install -r requirements.txt` |
+| `python: command not found` | Python não está instalado ou não está no PATH |
